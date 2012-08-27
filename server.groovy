@@ -18,7 +18,7 @@ routeMatcher.get("/") { req ->
     req.response.headers["Location"] = "/static/home.html"
     req.response.with {
         statusCode = 301
-        statusMessage = "Moved Permantly"
+        statusMessage = "Moved Permanently"
         end()
     }
 }
