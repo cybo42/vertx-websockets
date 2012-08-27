@@ -15,7 +15,12 @@ def timerID
 def config = ["prefix": "/eventbus"]
 
 routeMatcher.get("/") { req ->
-    req.response.sendFile("static/home.html")
+    req.response.headers["Location"] = "/static/home.html"
+    req.response.with {
+        statusCode = 301
+        statusMessage = "Moved Permantly"
+        end()
+    }
 }
 
 routeMatcher.get("/feed/status") { req ->
