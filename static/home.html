@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>WebSockets Trading</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Bootstrap -->
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<script src="js/jquery-1.8.0.min.js"></script>
+	<script src="http://cdn.sockjs.org/sockjs-0.2.1.min.js"></script>
+	<script src='js/vertxbus.js'></script>    
+	<script src='js/trades.js'></script>    
+
+</head>
+<body>
+	<div class="container">
+		<h1>Trading</h1>
+		<h5>
+			Server Status: <span id="connection-status" class="label">unknow</span>
+		</h5>
+
+		<div class="container">
+
+			<table id="portfolio" class="table table-hover table-striped table-condensed">
+				<thead>
+					<tr>
+						<th>Name</th> <th>Price</th> <th>Change</th> <th>Timestamp</th>
+					</tr>
+				</thead>
+		<!--
+		<tbody>
+			<tr id="AAPL" class="info">
+				<td>AAPL</td>
+				<td>N/A</td>
+				<td>0</td>
+				<td>N/A</td>
+			</tr>
+		</tbody>
+	-->
+</table>
+</div>
+</div>
+</body> 
+</html>
