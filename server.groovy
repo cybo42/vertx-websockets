@@ -75,7 +75,10 @@ eb.registerHandler("some-address") {message ->
 //vertx.createSockJSServer(server).bridge(config, [[address: 'some-address']], [[:]])
 // Allows all inbound channels
 vertx.createSockJSServer(server).bridge(config, [[:]], [[:]])
-server.listen(8080)
+
+def port = System.getenv('PORT')?:8080
+
+server.listen(port as int)
 
 def startStockFeed(EventBus eb, def stocks, long interval) {
   def timerID = vertx.setPeriodic(interval) {
