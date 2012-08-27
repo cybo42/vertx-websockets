@@ -1,23 +1,43 @@
 
-var eb = new vertx.EventBus('/eventbus');
 
-eb.onopen = function() {
-  console.log("socket opened");
-  $('#connection-status').removeClass("label-important").toggleClass("label-success").text('connected');
+var eb = null;
 
-  eb.registerHandler('price.up', function(message) {
-    console.log('received a message: ' + JSON.stringify(message));
-    addOrUpdateRow(message);
-  });
+function connectToServer(){
 
-  eb.registerHandler('activty.log', function(message) {
-    console.log('received a message: ' + JSON.stringify(message));
-  });
+    if(!eb){
+      eb = new vertx.EventBus('/eventbus');
+    }
+
+    eb.onopen = function() {
+      console.log("socket opened");
+      $('#connection-status').removeClass("label-important").toggleClass("label-success").text('connected');
+
+      eb.registerHandler('price.up', function(message) {
+        console.log('received a message: ' + JSON.stringify(message));
+        addOrUpdateRow(message);
+      });
+
+      eb.registerHandler('activty.log', function(message) {
+        console.log('received a message: ' + JSON.stringify(message));
+      });
+
+      eb.registerHandler('feed.status', function(message) {
+        console.log('received a message: ' + JSON.stringify(message));
+        $('#feed').html(message.message);
+      });      
+  }
+
+  eb.onclose = function() {
+    console.log("socket closed");
+    $('#connection-status').removeClass("label-success").addClass("label-important").text('connection down');
+    eb = null;
+  }
 }
 
-eb.onclose = function() {
-    console.log("socket closed");
-    $('#connection-status').toggleClass("label-success label-important").text('connection down');
+function closeConnection(){
+    if(eb){
+        eb.close();
+    }
 }
 
 function sendTrade(message){
@@ -51,5 +71,37 @@ function addOrUpdateRow(trade){
     }
 
     console.log(row);
-
 }
+
+$(document).ready(function () {
+    $("#server-connect").click(function () {
+        connectToServer();
+    });
+
+    $("#server-disconnect").click(function () {
+        closeConnection();
+    });
+
+    $("#feed-stop").click(function () {
+        $.get('/feed/off', function(data) {
+          $('#feed').html(data);
+      });
+    });
+
+    $("#feed-start").click(function () {
+        $.get('/feed/on', function(data) {
+          $('#feed').html(data);
+      });
+    });
+
+    $("#feed-status").click(function () {
+        $.get('/feed/status', function(data) {
+          $('#feed').html(data);
+      });
+    });
+
+
+
+});
+
+
