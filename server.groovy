@@ -78,6 +78,7 @@ vertx.createSockJSServer(server).bridge(config, [[:]], [[:]])
 
 def port = System.getenv('PORT')?:8080
 
+println "Starting server on port $port"
 server.listen(port as int)
 
 def startStockFeed(EventBus eb, def stocks, long interval) {
